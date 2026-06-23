@@ -1,26 +1,27 @@
 <?php
 
-$host = "localhost";
-$dbname = "fitconnect";
-$user = "root";
-$password = "";
+class Database
+{
+    private static $host = "localhost";
+    private static $dbname = "fitconnect";
+    private static $username = "root";
+    private static $password = "";
 
-try{
-    $pdo = new PDO(
-        "mysql:host=$host;dbname=$dbname;charset=utf8",
-        $user,
-        $password
-    );
+    public static function connect()
+    {
+        try {
+            $pdo = new PDO(
+                "mysql:host=" . self::$host . ";dbname=" . self::$dbname,
+                self::$username,
+                self::$password
+            );
 
-    $pdo->setAttribute(
-        PDO::ATTR_ERRMODE,
-        PDO::ERRMODE_EXCEPTION
-    );
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    echo "Connexion réussie !";
-} catch(PDOException $e){
+            return $pdo;
 
-    die("Erreur de connexion : " . $e->getMessage());
-
+        } catch (PDOException $e) {
+            die("Erreur : " . $e->getMessage());
+        }
+    }
 }
-?>
