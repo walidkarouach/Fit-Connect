@@ -21,7 +21,7 @@ class Database
             return $pdo;
 
         } catch (PDOException $e) {
-            die("Erreur : " . $e->getMessage());
+            echo"Erreur : " . $e->getMessage();
         }
     }
 }
