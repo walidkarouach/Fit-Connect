@@ -1,6 +1,6 @@
 <?php
 
-require_once "../Services/AdherentService.php";
+require_once __DIR__ . '/../Services/AdherentService.php';
 
 class AdherentController
 {

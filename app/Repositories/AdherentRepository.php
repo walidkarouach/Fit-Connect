@@ -1,6 +1,6 @@
 <?php
 
-require_once "../config/Database.php";
+require_once __DIR__ . '/../../config/config.php';
 
 class AdherentRepository
 {
@@ -13,7 +13,7 @@ class AdherentRepository
 
     public function findAll()
     {
-        $sql = "SELECT * FROM adherent";
+        $sql = "SELECT * FROM ADHERENT";
         $stmt = $this->pdo->query($sql);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -21,7 +21,7 @@ class AdherentRepository
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM adherent WHERE id_adherent = ?";
+        $sql = "SELECT * FROM ADHERENT WHERE id_adherent = ?";
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute([$id]);
 
@@ -30,9 +30,9 @@ class AdherentRepository
 
     public function create($data)
     {
-        $sql = "INSERT INTO adherent
-        (nom,prenom,email,telephone,date_inscription,id_abonnement,id_salle)
-        VALUES (?,?,?,?,?,?,?)";
+        $sql = "INSERT INTO ADHERENT
+        (nom, prenom, email, telephone, date_inscription, id_abonnement, id_salle)
+        VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->pdo->prepare($sql);
 
@@ -47,9 +47,35 @@ class AdherentRepository
         ]);
     }
 
+    public function update($id, $data)
+    {
+        $sql = "UPDATE ADHERENT SET
+                nom = ?,
+                prenom = ?,
+                email = ?,
+                telephone = ?,
+                date_inscription = ?,
+                id_abonnement = ?,
+                id_salle = ?
+                WHERE id_adherent = ?";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([
+            $data['nom'],
+            $data['prenom'],
+            $data['email'],
+            $data['telephone'],
+            $data['date_inscription'],
+            $data['id_abonnement'],
+            $data['id_salle'],
+            $id
+        ]);
+    }
+
     public function delete($id)
     {
-        $sql = "DELETE FROM adherent WHERE id_adherent = ?";
+        $sql = "DELETE FROM ADHERENT WHERE id_adherent = ?";
         $stmt = $this->pdo->prepare($sql);
 
         return $stmt->execute([$id]);
