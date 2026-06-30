@@ -80,4 +80,12 @@ class AdherentRepository
 
         return $stmt->execute([$id]);
     }
+
+    public function count()
+    {
+        $sql = "SELECT COUNT(*) FROM ADHERENT";
+        $stmt = $this->pdo->query($sql);
+
+        return $stmt->fetchColumn();
+    }
 }

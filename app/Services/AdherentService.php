@@ -11,8 +11,28 @@ class AdherentService
         $this->repository = new AdherentRepository();
     }
 
-    public function getAll()
+    public function getAllAdherents()
     {
         return $this->repository->findAll();
+    }
+
+    public function getAdherentById($id)
+    {
+        return $this->repository->findById($id);
+    }
+
+    public function createAdherent($data)
+    {
+        return $this->repository->create($data);
+    }
+
+    public function updateAdherent($id, $data)
+    {
+        return $this->repository->update($id, $data);
+    }
+
+    public function deleteAdherent($id)
+    {
+        return $this->repository->delete($id);
     }
 }
