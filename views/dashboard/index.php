@@ -17,147 +17,9 @@ $derniersAdherents = $adherentRepository->findAll();
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>FitConnect</title>
+    <title>FitConnect — Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
-    
-    <style>
-        /* ===== 1. RESET & BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, sans-serif;
-        }
-        body {
-            background: #f8fafc;
-            color: #1e293b;
-            padding-bottom: 40px;
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* ===== 2. HEADER BAR ===== */
-        header {
-            background: #ffffff;
-            border-bottom: 1px solid #e2e8f0;
-            padding: 20px 0;
-            margin-bottom: 30px;
-        }
-        .nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .logo {
-            font-size: 18px;
-            font-weight: 700;
-            color: #2563eb;
-        }
-        .nav-links a {
-            color: #64748b;
-            text-decoration: none;
-            margin-left: 20px;
-            font-size: 14px;
-        }
-        .nav-links a.active {
-            color: #2563eb;
-            font-weight: 600;
-        }
-
-        /* ===== 3. CARDS STATS ===== */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        .card {
-            background: #ffffff;
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-        }
-        .card h3 {
-            font-size: 13px;
-            color: #64748b;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-        .card .val {
-            font-size: 32px;
-            font-weight: 700;
-            color: #0f172a;
-            margin-bottom: 16px;
-        }
-        .card-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .btn-add {
-            background: #eff6ff;
-            color: #2563eb;
-            padding: 6px 12px;
-            text-decoration: none;
-            font-size: 13px;
-            border-radius: 6px;
-            font-weight: 600;
-        }
-        .btn-add:hover {
-            background: #2563eb;
-            color: #ffffff;
-        }
-        .link-view {
-            font-size: 13px;
-            color: #64748b;
-            text-decoration: none;
-        }
-        .link-view:hover {
-            color: #0f172a;
-        }
-
-        /* ===== 4. TABLE BOX ===== */
-        .box {
-            background: #ffffff;
-            padding: 24px;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
-        }
-        .box h2 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #0f172a;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-        }
-        th {
-            background: #f8fafc;
-            text-align: left;
-            padding: 12px;
-            color: #64748b;
-            font-weight: 600;
-            border-bottom: 1px solid #e2e8f0;
-        }
-        td {
-            padding: 14px 12px;
-            border-bottom: 1px solid #f1f5f9;
-            color: #334155;
-        }
-        tr:last-child td {
-            border-bottom: none;
-        }
-        tr:hover td {
-            background: #f8fafc;
-        }
-    </style>
+    <link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
 
@@ -221,21 +83,31 @@ $derniersAdherents = $adherentRepository->findAll();
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $compteur = 0;
-                    foreach (array_reverse($derniersAdherents) as $adherent):
-                        if ($compteur == 5) break;
-                    ?>
-                    <tr>
-                        <td>#<?= $adherent['id_adherent'] ?></td>
-                        <td><?= $adherent['nom'] . ' ' . $adherent['prenom'] ?></td>
-                        <td><?= $adherent['email'] ?></td>
-                        <td><?= $adherent['date_inscription'] ?></td>
-                    </tr>
-                    <?php 
-                        $compteur++; 
-                    endforeach; 
-                    ?>
+                    <?php if (empty($derniersAdherents)): ?>
+                        <tr>
+                            <td colspan="4" class="empty">Aucun adhérent enregistré pour le moment.</td>
+                        </tr>
+                    <?php else: ?>
+                        <?php
+                        $compteur = 0;
+                        foreach (array_reverse($derniersAdherents) as $adherent):
+                            if ($compteur == 5) break;
+                        ?>
+                        <tr>
+                            <td><strong>#<?= $adherent['id_adherent'] ?></strong></td>
+                            <td>
+                                <div class="member-info">
+                                    <span class="member-name"><?= htmlspecialchars($adherent['nom'] . ' ' . $adherent['prenom']) ?></span>
+                                </div>
+                            </td>
+                            <td><?= htmlspecialchars($adherent['email']) ?></td>
+                            <td><?= htmlspecialchars($adherent['date_inscription']) ?></td>
+                        </tr>
+                        <?php 
+                            $compteur++; 
+                        endforeach; 
+                        ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
 
